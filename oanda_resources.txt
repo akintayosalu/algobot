@@ -1,0 +1,17 @@
+1) OANDA web trading terminal
+
+https://trade.oanda.com/
+
+2) OANDA Python wrapper installation
+
+https://pypi.org/project/oandapyV20/
+
+3) OANDA API (python wrapper) documentation
+
+https://buildmedia.readthedocs.org/media/pdf/oanda-api-v20/latest/oanda-api-v20.pdf
+
+4) OANDA developer account intro
+
+http://developer.oanda.com/
+
+5) API Access Code: 05d7e64454a7504094fe680925845c5d-c78545469a1b3dcfd2e9cf332951c5f9
