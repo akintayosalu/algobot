@@ -114,6 +114,10 @@ def market_order(instrument,units,sl):
     return data
 
 
+#check trades
+v = trades.OpenTrades(accountID=account_id)
+client.request(v)
+
 #close trade
 r = orders.OrderCreate(accountID=account_id, data=market_order("USD_JPY",-100,3*ATR(ohlc_df,120)))
 client.request(r)
