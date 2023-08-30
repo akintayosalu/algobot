@@ -1,5 +1,9 @@
 # algobot
 Algorithmic Trading Bot (Work in Progress)
+# Description 
+Algobot is an algorithmic trading bot that automates the process of buying and selling foreign exchange trades. Specifically, Algobot translates financial data (open, close, high, & low prices and trade volume) into technical indicators that produce "buy" and "sell" signals, which then lead to Algobot making API calls that create real short and long trades on the Oanda online forex broker.
+# Deployment
+- For deployment, the user needs to create a demo/paid account on Oanda (refer to )
 # Getting Data
 Scripts in this folder describe how to obtain price data from resources such as YahooFinancials, yfinance and Alpha Vantage APIs
 # Web Scraping
