@@ -13,7 +13,6 @@ import oandapyV20.endpoints.trades as trades
 import pandas as pd
 import time
 import numpy as np
-import pandas as pd
 import statsmodels.api as sm
 
 #initiating API connection and defining trade parameters
@@ -21,10 +20,10 @@ client = oandapyV20.API(access_token="05d7e64454a7504094fe680925845c5d-c78545469
 account_id = "101-001-26553977-001"
 
 #defining strategy parameters
-#pairs = ['EUR_USD','GBP_USD','USD_CHF','AUD_USD','USD_CAD','EUR_JPY','USD_JPY','AUD_JPY','AUD_USD','AUD_NZD','NZD_USD'] #currency pairs to be included in the strategy
-pairs = ['USD_JPY']
+pairs = ['EUR_USD','GBP_USD','USD_CHF','AUD_USD','USD_CAD','EUR_JPY','USD_JPY','AUD_JPY','AUD_USD','AUD_NZD','NZD_USD'] #currency pairs to be included in the strategy
 pos_size = 2000 #max capital allocated/position size for any currency pair
 
+#This helper function grabs the financial data (open, close, high, low, volume)
 def candles(instrument):
     params = {"count": 800,"granularity": "M1"} #granularity can be in seconds S5 - S30, minutes M1 - M30, hours H1 - H12, days D, weeks W or months M
     candles = instruments.InstrumentsCandles(instrument=instrument,params=params)
@@ -37,8 +36,9 @@ def candles(instrument):
     ohlc_df = ohlc_df.apply(pd.to_numeric)
     return ohlc_df
 
+#This function calculates the slope of the MACD & Signal lines
 def slope(ser,n):
-    "function to calculate the slope of n consecutive points on a plot"
+    #calculate the slope of n consecutive points on a plot
     slopes = [i*0 for i in range(n-1)]
     for i in range(n,len(ser)+1):
         y = ser[i-n:i]
@@ -52,8 +52,9 @@ def slope(ser,n):
     slope_angle = (np.rad2deg(np.arctan(np.array(slopes))))
     return np.array(slope_angle)
 
+#This function creates the "short" or "long" position
 def market_order(instrument,units,sl): #Json format oanda api
-    """units can be positive or negative, stop loss (in pips) added/subtracted to price """  
+    #units can be positive or negative, stop loss (in pips) added/subtracted to price
     account_id = "101-001-26553977-001"
     data = {
             "order": {
@@ -67,9 +68,9 @@ def market_order(instrument,units,sl): #Json format oanda api
             }
     r = orders.OrderCreate(accountID=account_id, data=data)
     client.request(r)
-    
+
+#Helper function to calculate True Range and Average True Range
 def ATR(DF,n):
-    "function to calculate True Range and Average True Range"
     df = DF.copy()
     df['H-L']=abs(df['h']-df['l'])
     df['H-PC']=abs(df['h']-df['c'].shift(1))
@@ -80,9 +81,9 @@ def ATR(DF,n):
     df2 = df.drop(['H-L','H-PC','L-PC'],axis=1)
     return round(df2["ATR"][-1],4) # round to 4 decimal places since GBPUSD, EURUSD 1pip is 0.0001
 
+#Function to calculate MACD
+#typical values a = 12; b = 26, c = 9
 def MACD(DF,a,b,c):
-    """function to calculate MACD
-       typical values a = 12; b =26, c =9"""
     df = DF.copy()
     df["MA_Fast"]=df["c"].ewm(span=a,min_periods=a).mean()
     df["MA_Slow"]=df["c"].ewm(span=b,min_periods=b).mean()
@@ -91,6 +92,7 @@ def MACD(DF,a,b,c):
     df.dropna(inplace=True)
     return (df["MACD"],df["Signal"])
 
+#This function identifies trade signal from MACD technical indicator 
 def trade_signal(df,curr):
     signal = ""
     if df["macd"][-1] > df["signal"][-1] and df["macd_slope"][-1] > df["signal_slope"][-1]:
