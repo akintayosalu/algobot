@@ -34,6 +34,7 @@ params = {"instruments": "USD_JPY"}
 account_id = "101-001-26553977-001" #can grab info 
 r = pricing.PricingInfo(accountID=account_id, params=params)
 i=0
+""""""
 while i <=20:
     rv = client.request(r)
     print("Time=",rv["time"])
@@ -41,6 +42,7 @@ while i <=20:
     print("ask=",rv["prices"][0]["closeoutAsk"])
     print("*******************")
     i+=1
+
     
 #trading account details
 r = accounts.AccountDetails(accountID=account_id)

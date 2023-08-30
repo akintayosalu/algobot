@@ -21,7 +21,8 @@ client = oandapyV20.API(access_token="05d7e64454a7504094fe680925845c5d-c78545469
 account_id = "101-001-26553977-001"
 
 #defining strategy parameters
-pairs = ['EUR_USD','GBP_USD','USD_CHF','AUD_USD','USD_CAD','EUR_JPY','USD_JPY','AUD_JPY','AUD_USD','AUD_NZD','NZD_USD'] #currency pairs to be included in the strategy
+#pairs = ['EUR_USD','GBP_USD','USD_CHF','AUD_USD','USD_CAD','EUR_JPY','USD_JPY','AUD_JPY','AUD_USD','AUD_NZD','NZD_USD'] #currency pairs to be included in the strategy
+pairs = ['USD_JPY']
 pos_size = 2000 #max capital allocated/position size for any currency pair
 
 def candles(instrument):
